@@ -4,6 +4,7 @@ let dropMaker;
 let timerInterval;
 let score = 0;
 let timeLeft = 30;
+let dropCount = 0;
 
 const startButton = document.getElementById("start-btn");
 const scoreDisplay = document.getElementById("score");
@@ -18,6 +19,7 @@ function startGame() {
 
   score = 0;
   timeLeft = 30;
+  dropCount = 0;
   gameRunning = true;
   gameMessage.textContent = "";
   scoreDisplay.textContent = score;
@@ -37,8 +39,14 @@ function startGame() {
 function createDrop() {
   if (!gameRunning) return;
 
+  dropCount += 1;
+  const isBadDrop = dropCount % 5 === 0;
+
   const drop = document.createElement("div");
   drop.className = "water-drop";
+  if (isBadDrop) {
+    drop.classList.add("bad-drop");
+  }
 
   const initialSize = 60;
   const sizeMultiplier = Math.random() * 0.8 + 0.5;
@@ -66,7 +74,11 @@ function collectDrop(drop) {
   if (!gameRunning) return;
 
   drop.remove();
-  score += 1;
+  if (drop.classList.contains("bad-drop")) {
+    score = Math.max(0, score - 1);
+  } else {
+    score += 1;
+  }
   scoreDisplay.textContent = score;
 }
 

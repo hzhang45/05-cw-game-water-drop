@@ -122,7 +122,9 @@ body {
 }
 
 .bad-drop {
-    background-color: #ff4444;
+    background: radial-gradient(circle at 30% 30%, #ffe1e1 0%, #ff7f7f 35%, #f5402c 75%, #a61d14 100%);
+    border: 2px solid #8f140d;
+    box-shadow: 0 8px 14px rgba(165, 29, 20, 0.25);
 }
 
 .game-title {
