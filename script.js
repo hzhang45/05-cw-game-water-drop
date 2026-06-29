@@ -12,6 +12,7 @@ const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 const gameContainer = document.getElementById("game-container");
 const gameMessage = document.getElementById("game-message");
+const confettiLayer = document.getElementById("confetti-layer");
 
 startButton.addEventListener("click", startGame);
 resetButton.addEventListener("click", resetGame);
@@ -128,7 +129,30 @@ function clearDrops() {
   gameContainer.querySelectorAll(".water-drop").forEach((drop) => drop.remove());
 }
 
+function launchConfetti() {
+  confettiLayer.innerHTML = "";
+
+  for (let i = 0; i < 40; i += 1) {
+    const piece = document.createElement("div");
+    piece.className = "confetti-piece";
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.backgroundColor = ["#ffc907", "#2e9df7", "#4fcb53", "#f16061", "#ff902a"][Math.floor(Math.random() * 5)];
+    piece.style.animationDelay = `${Math.random() * 0.2}s`;
+    piece.style.setProperty("--drift", `${Math.random() * 200 - 100}px`);
+    piece.style.setProperty("--rotation", `${Math.random() * 360}deg`);
+    confettiLayer.appendChild(piece);
+  }
+
+  setTimeout(() => {
+    confettiLayer.innerHTML = "";
+  }, 1800);
+}
+
 function showEndMessage() {
+  if (score >= 20) {
+    launchConfetti();
+  }
+
   const winningMessages = [
     "Amazing work! You saved the day with a splash of kindness.",
     "Fantastic catch! Your compassion is making waves.",

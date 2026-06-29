@@ -179,6 +179,33 @@ body {
     color: #d62828;
 }
 
+#confetti-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 10px;
+    height: 18px;
+    opacity: 0.9;
+    animation: confettiFall 1.8s ease-out forwards;
+}
+
+@keyframes confettiFall {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate3d(var(--drift), 700px, 0) rotate(var(--rotation));
+        opacity: 0;
+    }
+}
+
 @keyframes dropFall {
     from {
         transform: translateY(-20px);
