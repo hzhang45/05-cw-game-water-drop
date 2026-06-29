@@ -7,12 +7,14 @@ let timeLeft = 30;
 let dropCount = 0;
 
 const startButton = document.getElementById("start-btn");
+const resetButton = document.getElementById("reset-btn");
 const scoreDisplay = document.getElementById("score");
 const timeDisplay = document.getElementById("time");
 const gameContainer = document.getElementById("game-container");
 const gameMessage = document.getElementById("game-message");
 
 startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", resetGame);
 
 function startGame() {
   if (gameRunning) return;
@@ -34,6 +36,22 @@ function startGame() {
   dropMaker = setInterval(createDrop, 800);
   timerInterval = setInterval(updateTimer, 1000);
   createDrop();
+}
+
+function resetGame() {
+  gameRunning = false;
+  clearInterval(dropMaker);
+  clearInterval(timerInterval);
+  clearDrops();
+
+  score = 0;
+  timeLeft = 30;
+  dropCount = 0;
+  scoreDisplay.textContent = score;
+  timeDisplay.textContent = timeLeft;
+  gameMessage.textContent = "";
+  startButton.disabled = false;
+  startButton.textContent = "Start Game";
 }
 
 function createDrop() {
@@ -125,8 +143,11 @@ function showEndMessage() {
     "You’re getting closer—try another round."
   ];
 
-  const messages = score >= 20 ? winningMessages : losingMessages;
+  const isWin = score >= 20;
+  const messages = isWin ? winningMessages : losingMessages;
   const randomMessage = messages[Math.floor(Math.random() * messages.length)];
   gameMessage.textContent = `${randomMessage} Final score: ${score}.`;
+  gameMessage.classList.toggle("win-message", isWin);
+  gameMessage.classList.toggle("lose-message", !isWin);
 }
 
